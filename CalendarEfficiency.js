@@ -8,14 +8,16 @@ function calendarMatch() {
    
    Logger.log('Number of events: ' + events.length)
    for each(var event in events){
-     if(event.getTitle().substring(0,3) == 'hw '){
-       Logger.log("Found " + event.getTitle().substring(3));
-       hwCal.createEvent(event.getTitle().substring(3), event.getStartTime(), event.getEndTime(), {location: event.getLocation(), description: event.getDescription()});
-       event.deleteEvent();
-     }else if(event.getTitle().substring(0,5) == 'task '){
-       Logger.log("Found " + event.getTitle().substring(5));
-       hwCal.createEvent(event.getTitle().substring(5), event.getStartTime(), event.getEndTime(), {location: event.getLocation(), description: event.getDescription()});
+        sortCal(event, "hw ", hwCal);
+        sortCal(event, "task ", doCal);  
+   }
+}
+
+function sortCal(event, keyword, targetCal){
+  var l = keyword.length;
+  if(event.getTitle().substring(0, l) == keyword){
+       Logger.log("Found " + event.getTitle().substring(l));
+       targetCal.createEvent(event.getTitle().substring(l), event.getStartTime(), event.getEndTime(), {location: event.getLocation(), description: event.getDescription()});
        event.deleteEvent();
      }
-   }
 }
